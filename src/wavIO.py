@@ -9,7 +9,7 @@ class WavIn(Reader):
 
         self.__filename: str = filename
         self.__data: object = wave.open(self.filename, 'rb')
-        self.readSignal()
+        self.processWavData()
 
     def __copy__(self):
         return WavIn(filename=self.filename)
@@ -24,19 +24,23 @@ class WavIn(Reader):
 
     @property
     def channels(self) -> int:
-        return self.data.getnchannels()
+        return self.__channels
 
     @property
     def sampleRate(self) -> float:
-        return self.data.getframerate()
+        return self.__sampleRate
+
+    @sampleRate.setter
+    def sampleRate(self, sampleRate: float):
+        self.__sampleRate: float = sampleRate
 
     @property
     def sampleWidth(self) -> int:
-        return self.data.getsampwidth()
+        return self.__sampleWidth
 
     @property
     def sampleNum(self) -> int:
-        return self.data.getnframes()
+        return self.__sampleNum
 
     @property
     def signal(self) -> bytes:
@@ -50,8 +54,12 @@ class WavIn(Reader):
     def wavArray(self) -> list:
         return np.frombuffer(self.signal, dtype='float32')
 
-    def readSignal(self) -> None:
+    def processWavData(self) -> None:
 
+        self.__channels: int = self.data.getnchannels()
+        self.__sampleRate: float = self.data.getframerate()
+        self.__sampleWidth: int = self.data.getsampwidth()
+        self.__sampleNum: int = self.data.getnframes()
         self.__signal: bytes = self.data.readframes(-1)
 
     def readFrames(self, save: bool = True) -> pd.DataFrame:
