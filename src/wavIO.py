@@ -54,9 +54,13 @@ class WavIn(Reader):
 
         self.__signal: bytes = self.data.readframes(-1)
 
-    def readFrames(self) -> pd.DataFrame:
+    def readFrames(self, save: bool = True) -> pd.DataFrame:
 
-        return pd.DataFrame(self.wavArray, columns=['frames(amplitude)'])
+        data: pd.DataFrames = pd.DataFrame(self.wavArray, columns=['frames(amplitude)'])
+        if save:
+            data.to_csv(f'{self.filename}_frames.csv')
+
+        return data
 
         
 class WavOut(Writer):
