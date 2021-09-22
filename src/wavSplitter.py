@@ -1,6 +1,6 @@
 import wave
-from wavIO import WavIn, WavOut
-from base import Splitter
+from src.wavIO import WavIn, WavOut
+from src.base import Splitter
 
 
 class WavSplitter(Splitter):

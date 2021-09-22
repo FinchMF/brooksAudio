@@ -1,6 +1,6 @@
 import numpy as np
-from wavIO import WavIn, WavOut
-from base import Processor
+from src.wavIO import WavIn, WavOut
+from src.base import Processor
 
 class Effects(Processor):
 
@@ -22,12 +22,12 @@ class Effects(Processor):
 
         wav: object = WavIn(self.filename)
 
-        signal: list = wav.wavArray()
+        signal: list = wav.wavArray
         signal: list = signal[::-1]
         signal: bytes = signal.tobytes()
         wav.signal: bytes = signal
 
-        WavOut(filename=f'{self.root}/{self.filename}_reversed.wav', data=wav)
+        WavOut(filename=f'{self.root}/{self.filename[:-4]}_reversed.wav', data=wav).write()
 
     def timeStretch(self, factor: float) -> None:
 
@@ -35,4 +35,4 @@ class Effects(Processor):
 
         wav.sampleRate: float = wav.sampleRate / factor
 
-        WavOut(filename=f"{self.root}/{self.filename}_{factor}__shift.wav", data=wav)
+        WavOut(filename=f"{self.root}/{self.filename[:-4]}_{factor}__shift.wav", data=wav).write()

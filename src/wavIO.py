@@ -1,7 +1,7 @@
 import wave
 import pandas as pd
 import numpy as np
-from base import Reader, Writer
+from src.base import Reader, Writer
 
 class WavIn(Reader):
 
@@ -62,11 +62,15 @@ class WavIn(Reader):
         self.__sampleNum: int = self.data.getnframes()
         self.__signal: bytes = self.data.readframes(-1)
 
-    def readFrames(self, save: bool = True) -> pd.DataFrame:
+    def readFrames(self, save: bool = True, output: str = None) -> pd.DataFrame:
 
-        data: pd.DataFrames = pd.DataFrame(self.wavArray, columns=['frames(amplitude)'])
+        path: str = f'{self.filename[:-4]}_frames.csv'
+        data: pd.DataFrame = pd.DataFrame(self.wavArray, columns=['frames(amplitude)'])
         if save:
-            data.to_csv(f'{self.filename}_frames.csv')
+            if output:
+                path: str = output + path 
+
+            data.to_csv(path)
 
         return data
 

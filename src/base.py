@@ -83,5 +83,11 @@ class Processor(object):
     def timeStretch(self) -> None:
         raise NotImplementedError()
 
-    def reorder(self) -> None:
-        raise NotImplementedError()
+
+class Stitcher(object):
+
+    def collectWavs(self) -> None:
+        NotImplementedError()
+
+    def connectWavs(self) -> None:
+        NotImplementedError()
