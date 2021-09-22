@@ -68,7 +68,7 @@ class WavIn(Reader):
         data: pd.DataFrame = pd.DataFrame(self.wavArray, columns=['frames(amplitude)'])
         if save:
             if output:
-                path: str = output + path 
+                path: str = f"{output}/{path}" 
 
             data.to_csv(path)
 
