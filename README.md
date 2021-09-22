@@ -8,7 +8,7 @@
 
 ## Current Output
 
-While it is configurable, the current state of the program is rather crude. By running the second command, you should see this std out:
+While it is configurable, the current state of the program is rather crude. By running the bash command, you should see this std out:
 
     2021-09-22 01:03:02 [INFO] brooksAudio - Generating csv...
     2021-09-22 01:03:24 [INFO] brooksAudio - ...csv saved in output
