@@ -52,7 +52,19 @@ class WavIn(Reader):
 
     @property
     def wavArray(self) -> list:
-        return np.frombuffer(self.signal, dtype='float32')
+
+        try:
+            array: np.ndarray = np.frombuffer(self.signal, dtype='float64')
+
+        except ValueError:
+            try:
+                array: np.ndarray = np.frombuffer(self.signal, dtype='float32')
+
+            except ValueError:
+                array: np.ndarray = np.frombuffer(self.signal, dtype='float16')
+
+            
+        return array
 
     def processWavData(self) -> None:
 

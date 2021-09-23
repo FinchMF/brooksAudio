@@ -1,9 +1,11 @@
+#!/usr/bin/python
 import sys
 import argparse
 import logging as log
 from src.wavIO import WavIn, WavOut
 from src.wavProcessor import Effects
 from src.wavSplitter import WavSplitter
+from src.wavStitcher import WavStitcher
 
 log.basicConfig(
     format='%(asctime)s [%(levelname)s] %(name)s - %(message)s',
@@ -72,6 +74,16 @@ class Run:
         S.splitWavsBySeconds(seconds=self.split)
         logger.info(f'{self.input_file} split into equal divisions of {self.split} and saved in {self.output_dir}')
 
+    def generate_stitch(self, stitch: bool = True) -> None:
+
+        if stitch == False:
+            logger.info('No Stitched Audio')
+            return
+
+        S: object = WavStitcher(root=self.output_dir, filename='stitched')
+        S.connectWavs()
+        logger.info(f'{self.input_file} randomly reordered from split and saved in {self.output_dir}')
+
 
 if __name__ == '__main__':
 
@@ -91,7 +103,9 @@ if __name__ == '__main__':
                       help='choose whether to split audio wav or not')
     parser.add_argument('-r', '-reverse', type=bool, default=True,
                       help='choose whether to reverse audio wav or not')
-    
+    parser.add_argument('-st', '-stitch', type=bool, default=True,
+                      help='choose whether to random stitch audio wav or not')
+
     args: object = parser.parse_args()
 
     R: object = Run(input_file=args.i,
@@ -102,3 +116,4 @@ if __name__ == '__main__':
     R.generate_csv()
     R.generate_effects(reverse=args.r, time_shift=args.t)
     R.generate_splits(split=args.sp)
+    R.generate_stitch(stitch=args.st)
