@@ -140,3 +140,5 @@ cython_debug/
 #audio data
 *.wav
 *.csv
+
+.DS_Store
